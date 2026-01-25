@@ -6,7 +6,7 @@
     <title>Test Enhanced Chat</title>
   </head>
   <body>
-    <h1>Test Enhanced Chat (Beta)</h1>
+    <h1>Test Enhanced Chat (Beta 2)</h1>
     <script type="text/javascript">
       function initEmbeddedMessaging() {
         try {
@@ -19,7 +19,18 @@
             urlSegments.length > 0 ? urlSegments[urlSegments.length - 1] : "";
 
           // Enviar el camp pre-chat hidden amb l'últim segment de l'URL
+          /*
+          
           embeddedservice_bootstrap.settings.prepopulatedPrechatFields = {
+            tipologiaURL: lastSegment,
+          };
+          
+          embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+            "tipologiaURL": lastSegment, 
+          });
+
+          */
+          embeddedservice_bootstrap.settings.customParameters = {
             tipologiaURL: lastSegment,
           };
           embeddedservice_bootstrap.settings.language = "es";

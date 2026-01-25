@@ -6,33 +6,33 @@
     <title>Test Enhanced Chat</title>
   </head>
   <body>
-    <h1>Test Enhanced Chat (Beta 2)</h1>
+    <h1>Test Enhanced Chat (Beta 3)</h1>
     <script type="text/javascript">
-      function initEmbeddedMessaging() {
+      // 1) Listener ANTES del init (tal como indica Salesforce)
+      window.addEventListener("onEmbeddedMessagingReady", function () {
         try {
-          // Capturar l'URL actual i extreure l'últim segment
-          var currentUrl = window.location.pathname; // Exemple: /es/master-universitario/alimentacion-y-sostenibilidad
-          var urlSegments = currentUrl.split("/").filter(function (segment) {
-            return segment.length > 0; // Filtrar segments buits
+          // Capturar el path y extraer el último segmento
+          var currentPath = window.location.pathname; // Ej: /es/master-universitario/alimentacion-y-sostenibilidad
+          var urlSegments = currentPath.split("/").filter(function (s) {
+            return s.length > 0;
           });
           var lastSegment =
             urlSegments.length > 0 ? urlSegments[urlSegments.length - 1] : "";
 
-          // Enviar el camp pre-chat hidden amb l'últim segment de l'URL
-          /*
-          
-          embeddedservice_bootstrap.settings.prepopulatedPrechatFields = {
-            tipologiaURL: lastSegment,
-          };
-          
+          // 2) Enviar Hidden Pre-Chat fields DESPUÉS del Ready y ANTES de empezar conversación
           embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-            "tipologiaURL": lastSegment, 
+            tipologiaURL: lastSegment,
           });
 
-          */
-          embeddedservice_bootstrap.settings.customParameters = {
-            tipologiaURL: "TestEnhancedChat",
-          };
+          // (opcional) log de verificación
+          console.log("Hidden pre-chat tipologiaURL =", lastSegment);
+        } catch (e) {
+          console.error("Error seteando hidden pre-chat:", e);
+        }
+      });
+
+      function initEmbeddedMessaging() {
+        try {
           embeddedservice_bootstrap.settings.language = "es";
 
           embeddedservice_bootstrap.init(

@@ -1,31 +1,45 @@
 <!doctype html>
 <html lang="es">
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<title>Test Enhanced Chat</title>
-	</head>
-	<body>
-		<h1>Test Enhanced Chat</h1>
-        <script type='text/javascript'>
-            function initEmbeddedMessaging() {
-                try {
-                    embeddedservice_bootstrap.settings.language = 'es'; // For example, enter 'en' or 'en-US'
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Test Enhanced Chat</title>
+  </head>
+  <body>
+    <h1>Test Enhanced Chat</h1>
+    <script type="text/javascript">
+      function initEmbeddedMessaging() {
+        try {
+          // Capturar l'URL actual i extreure l'últim segment
+          var currentUrl = window.location.pathname; // Exemple: /es/master-universitario/alimentacion-y-sostenibilidad
+          var urlSegments = currentUrl.split("/").filter(function (segment) {
+            return segment.length > 0; // Filtrar segments buits
+          });
+          var lastSegment =
+            urlSegments.length > 0 ? urlSegments[urlSegments.length - 1] : "";
 
-                    embeddedservice_bootstrap.init(
-                        '00DUE000005T6S9',
-                        'Xat',
-                        'https://uvic--dev.sandbox.my.site.com/ESWXat1765448025141',
-                        {
-                            scrt2URL: 'https://uvic--dev.sandbox.my.salesforce-scrt.com'
-                        }
-                    );
-                } catch (err) {
-                    console.error('Error loading Embedded Messaging: ', err);
-                }
-            };
-        </script>
-        <script type='text/javascript' src='https://uvic--dev.sandbox.my.site.com/ESWXat1765448025141/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+          // Enviar el camp pre-chat hidden amb l'últim segment de l'URL
+          embeddedservice_bootstrap.settings.prepopulatedPrechatFields = {
+            tipologiaURL: lastSegment,
+          };
 
-	</body>
+          embeddedservice_bootstrap.init(
+            "00DUE000005T6S9",
+            "Xat",
+            "https://uvic--dev.sandbox.my.site.com/ESWXat1765448025141",
+            {
+              scrt2URL: "https://uvic--dev.sandbox.my.salesforce-scrt.com",
+            },
+          );
+        } catch (err) {
+          console.error("Error carregant Embedded Messaging: ", err);
+        }
+      }
+    </script>
+    <script
+      type="text/javascript"
+      src="https://uvic--dev.sandbox.my.site.com/ESWXat1765448025141/assets/js/bootstrap.min.js"
+      onload="initEmbeddedMessaging()"
+    ></script>
+  </body>
 </html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<title>Test Enhanced Chat</title>
+	</head>
+	<body>
+		<h1>Test Enhanced Chat</h1>
+        <script type='text/javascript'>
+            function initEmbeddedMessaging() {
+                try {
+                    embeddedservice_bootstrap.settings.language = 'es'; // For example, enter 'en' or 'en-US'
+
+                    embeddedservice_bootstrap.init(
+                        '00DUE000005T6S9',
+                        'Xat',
+                        'https://uvic--dev.sandbox.my.site.com/ESWXat1765448025141',
+                        {
+                            scrt2URL: 'https://uvic--dev.sandbox.my.salesforce-scrt.com'
+                        }
+                    );
+                } catch (err) {
+                    console.error('Error loading Embedded Messaging: ', err);
+                }
+            };
+        </script>
+        <script type='text/javascript' src='https://uvic--dev.sandbox.my.site.com/ESWXat1765448025141/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+
+	</body>
+</html>

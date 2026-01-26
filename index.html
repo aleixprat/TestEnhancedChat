@@ -5,49 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Test Enhanced Chat</title>
   </head>
+
   <body>
-    <h1>Test Enhanced Chat (Beta 3)</h1>
+    <h1>Test Enhanced Chat (Beta 5)</h1>
+
+    <!--Carga de la configuración externa del deployment.-->
+    <script src="./js/embedded-messaging-config.js"></script>
+
     <script type="text/javascript">
-      // 1) Listener ANTES del init (tal como indica Salesforce)
+      /**
+       * APSP 25/01/2026
+       * Obtiene el último segmento válido del path de la URL.
+       */
+      function getLastPathUrlSegment() {
+        var path = window.location.pathname || "/";
+        var segments = path.split("/").filter(function (str) {
+          return str && str.length > 0;
+        });
+
+        var last = "";
+        if (segments.length > 0) {
+          last = segments[segments.length - 1];
+        }
+
+        try {
+          return decodeURIComponent(last);
+        } catch (e) {
+          return last;
+        }
+      }
+
+      /**
+       * APSP 25/01/2026
+       * Listener oficial de Embedded Messaging. (cuando el runtime está listo y permite)
+       * Tiene la función de informar los Hidden Pre-Chat fields antes de iniciar la conversación.
+       */
       window.addEventListener("onEmbeddedMessagingReady", function () {
         try {
-          // Capturar el path y extraer el último segmento
-          var currentPath = window.location.pathname; // Ej: /es/master-universitario/alimentacion-y-sostenibilidad
-          var urlSegments = currentPath.split("/").filter(function (s) {
-            return s.length > 0;
-          });
-          var lastSegment =
-            urlSegments.length > 0 ? urlSegments[urlSegments.length - 1] : "";
+          var retrieveConfig = window.EMBEDDED_MESSAGING_CONFIG;
+          var lastSegment = getLastPathUrlSegment();
 
-          // 2) Enviar Hidden Pre-Chat fields DESPUÉS del Ready y ANTES de empezar conversación
-          embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-            tipologiaURL: lastSegment,
-          });
+          var payload = {};
+          payload[retrieveConfig.hiddenFieldName] = lastSegment;
 
-          // (opcional) log de verificación
-          console.log("Hidden pre-chat tipologiaURL =", lastSegment);
+          embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields(payload);
         } catch (e) {
-          console.error("Error seteando hidden pre-chat:", e);
+          console.error(
+            "[EmbeddedMessaging] Error estableciendo hidden pre-chat fields:",
+            e,
+          );
         }
       });
 
+      /**
+       * APSP 25/01/2026
+       * Inicializa Embedded Messaging tras la carga del runtime (bootstrap.min.js).
+       */
       function initEmbeddedMessaging() {
         try {
-          embeddedservice_bootstrap.settings.language = "es";
+          var retrieveConfig = window.EMBEDDED_MESSAGING_CONFIG;
+
+          if (
+            !retrieveConfig ||
+            !retrieveConfig.orgId ||
+            !retrieveConfig.deploymentName ||
+            !retrieveConfig.siteEndpoint ||
+            !retrieveConfig.scrt2URL
+          ) {
+            throw new Error(
+              "Configuración EMBEDDED_MESSAGING_CONFIG no informada.",
+            );
+          }
+
+          embeddedservice_bootstrap.settings.language = retrieveConfig.language;
 
           embeddedservice_bootstrap.init(
-            "00DUE000005T6S9",
-            "Xat",
-            "https://uvic--dev.sandbox.my.site.com/ESWXat1765448025141",
+            retrieveConfig.orgId,
+            retrieveConfig.deploymentName,
+            retrieveConfig.siteEndpoint,
             {
-              scrt2URL: "https://uvic--dev.sandbox.my.salesforce-scrt.com",
+              scrt2URL: retrieveConfig.scrt2URL,
             },
           );
         } catch (err) {
-          console.error("Error carregant Embedded Messaging: ", err);
+          throw new Error(err);
         }
       }
     </script>
+
     <script
       type="text/javascript"
       src="https://uvic--dev.sandbox.my.site.com/ESWXat1765448025141/assets/js/bootstrap.min.js"

@@ -19,7 +19,10 @@
           return str && str.length > 0;
         });
 
-        var last = segments.length > 0 ? segments[segments.length - 1] : "";
+        var last = "";
+        if (segments.length > 0) {
+          last = segments[segments.length - 1];
+        }
 
         try {
           return decodeURIComponent(last);

@@ -4,14 +4,54 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Test Enhanced Chat</title>
+     <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      .links {
+        margin: 20px 0;
+      }
+
+      .links a {
+        display: block;
+        margin-bottom: 10px;
+        color: #0b5cab;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .links a:hover {
+        text-decoration: underline;
+      }
+    </style>
   </head>
 
   <body>
     <h1>Test Enhanced Chat (Beta 5)</h1>
+     <div class="links">
+      <a href="https://aleixprat.github.io/TestEnhancedChat/gestion-de-datos-y-transformacion-empresarial/">
+        Gestión de datos y transformación empresarial
+      </a>
 
+      <a href="https://aleixprat.github.io/TestEnhancedChat/marqueting-i-publicitat/">
+        Màrqueting i publicitat
+      </a>
+
+      <a href="https://aleixprat.github.io/TestEnhancedChat/biotechnology/">
+        Biotechnology
+      </a>
+    </div>
+    
     <script type="text/javascript">
       /**
        * Obtiene el último segmento válido del path de la URL.
+       * Ejemplos:
+       * /TestEnhancedChat/gestion-de-datos-y-transformacion-empresarial/ -> gestion-de-datos-y-transformacion-empresarial
+       * /TestEnhancedChat/marqueting-i-publicitat/ -> marqueting-i-publicitat
+       * /TestEnhancedChat/biotechnology/ -> biotechnology
+       * /TestEnhancedChat/ -> ""
        */
       function getLastPathUrlSegment() {
         var path = window.location.pathname || "/";
@@ -32,16 +72,24 @@
       }
 
       /**
+       * Obtiene el HOST
+      */
+      function getHostURL() {
+        return window.location.host || "";
+      }
+
+      /**
        * Listener oficial de Embedded Messaging. (cuando el runtime está listo y permite)
        * Tiene la función de informar los Hidden Pre-Chat fields antes de iniciar la conversación.
        */
       window.addEventListener("onEmbeddedMessagingReady", function () {
         try {
-          var lastSegment = getLastPathUrlSegment();
+          var tipologia = getLastPathUrlSegment();
+          var host = getHostURL();
 
           // Nombre del parámetro hidden definido en Messaging Settings y mapeado al Flow.
           embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-            tipologiaURL: lastSegment,
+            tipologiaURL: tipologia,
           });
         } catch (e) {
           console.error(

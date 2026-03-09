@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Test Enhanced Chat</title>
-     <style>
+    <style>
       body {
         font-family: Arial, sans-serif;
         margin: 24px;
@@ -30,101 +30,22 @@
 
   <body>
     <h1>Test Enhanced Chat (Beta 5)</h1>
-     <div class="links">
-      <a href="https://aleixprat.github.io/TestEnhancedChat/gestion-de-datos-y-transformacion-empresarial/">
+
+    <div class="links">
+      <a href="/TestEnhancedChat/gestion-de-datos-y-transformacion-empresarial/">
         Gestión de datos y transformación empresarial
       </a>
 
-      <a href="https://aleixprat.github.io/TestEnhancedChat/marqueting-i-publicitat/">
+      <a href="/TestEnhancedChat/marqueting-i-publicitat/">
         Màrqueting i publicitat
       </a>
 
-      <a href="https://aleixprat.github.io/TestEnhancedChat/biotechnology/">
+      <a href="/TestEnhancedChat/biotechnology/">
         Biotechnology
       </a>
     </div>
-    
-    <script type="text/javascript">
-      /**
-       * Obtiene el último segmento válido del path de la URL.
-       * Ejemplos:
-       * /TestEnhancedChat/gestion-de-datos-y-transformacion-empresarial/ -> gestion-de-datos-y-transformacion-empresarial
-       * /TestEnhancedChat/marqueting-i-publicitat/ -> marqueting-i-publicitat
-       * /TestEnhancedChat/biotechnology/ -> biotechnology
-       * /TestEnhancedChat/ -> ""
-       */
-      function getLastPathUrlSegment() {
-        var path = window.location.pathname || "/";
-        var segments = path.split("/").filter(function (str) {
-          return str && str.length > 0;
-        });
 
-        var last = "";
-        if (segments.length > 0) {
-          last = segments[segments.length - 1];
-        }
-
-        try {
-          return decodeURIComponent(last);
-        } catch (e) {
-          return last;
-        }
-      }
-
-      /**
-       * Obtiene el HOST
-      */
-      function getHostURL() {
-        return window.location.host || "";
-      }
-
-      /**
-       * Listener oficial de Embedded Messaging. (cuando el runtime está listo y permite)
-       * Tiene la función de informar los Hidden Pre-Chat fields antes de iniciar la conversación.
-       */
-      window.addEventListener("onEmbeddedMessagingReady", function () {
-        try {
-          var tipologia = getLastPathUrlSegment();
-          var host = getHostURL();
-
-          // Nombre del parámetro hidden definido en Messaging Settings y mapeado al Flow.
-          embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-            tipologiaURL: tipologia,
-          });
-        } catch (e) {
-          console.error(
-            "[EmbeddedMessagingReady] Error inicializando Embedded Messaging Ready:",
-            e,
-          );
-        }
-      });
-
-      /**
-       * Inicializa Embedded Messaging tras la carga del runtime (bootstrap.min.js).
-       * Nota: los valores (OrgId, DeploymentName, SiteEndpoint, scrt2URL) son necesarios
-       * para inicializar el widget.
-       */
-      function initEmbeddedMessaging() {
-        try {
-          embeddedservice_bootstrap.settings.language = "es";
-
-          embeddedservice_bootstrap.init(
-            "00DUE000005T6S9",
-            "Xat",
-            "https://uvic--dev.sandbox.my.site.com/ESWXat1765448025141",
-            {
-              scrt2URL: "https://uvic--dev.sandbox.my.salesforce-scrt.com",
-            },
-          );
-        } catch (err) {
-          console.error(
-            "[EmbeddedMessaging] Error inicializando Embedded Messaging:",
-            err,
-          );
-        }
-      }
-    </script>
-
+    <script src="/TestEnhancedChat/common.js"></script>
     <script
       type="text/javascript"
       src="https://uvic--dev.sandbox.my.site.com/ESWXat1765448025141/assets/js/bootstrap.min.js"
